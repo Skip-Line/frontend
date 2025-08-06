@@ -9,7 +9,7 @@ function App() {
             <header className="sl-header">
                 <div className="sl-navbar">
                     <div className="sl-logo">
-                        <img src="/vite.svg" alt="SkipLine Logo" height={40} />
+
                         <span className="sl-title">SkipLine</span>
                     </div>
                     <nav className="sl-nav">
@@ -58,12 +58,12 @@ function App() {
                     <h2 className="sl-section-title">Supported Networks</h2>
                     <div className="sl-networks-list">
                         <div className="sl-network-card">
-                            <img src="/solana-sol-logo.png?v=040" alt="Solana" height={32} style={{ marginRight: '10px' }} />
+
                             <span className="sl-network-name">Solana</span>
                             <span className="sl-network-status sl-status-mainnet">Mainnet</span>
                         </div>
                         <div className="sl-network-card">
-                            <img src="/ethereum-eth-logo.png?v=040" alt="Ethereum" height={32} style={{ marginRight: '10px' }} />
+
                             <span className="sl-network-name">Ethereum</span>
                             <span className="sl-network-status sl-status-testnet">Testnet</span>
                         </div>
