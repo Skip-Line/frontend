@@ -1,78 +1,94 @@
 import React from 'react'
 import StakingWidget from './components/StakingWidget'
 import './components/StakingWidget.css'
+import './style.css'
 
 function App() {
     return (
         <>
-            <header>
+            <header className="sl-header">
+                <div className="sl-navbar">
+                    <div className="sl-logo">
+                        <img src="/public/vite.svg" alt="SkipLine Logo" height={40} />
+                        <span className="sl-title">SkipLine</span>
+                    </div>
+                    <nav className="sl-nav">
+                        <a href="#staking" className="sl-nav-link">Stake</a>
+                        <a href="#networks" className="sl-nav-link">Projects</a>
+                        <a href="#projects" className="sl-nav-link">Networks</a>
+                        <a href="#about" className="sl-nav-link">About</a>
+                    </nav>
+                </div>
             </header>
 
-            <main>
-                <section className="hero">
-                    <pre className="ascii-art">
-                        {`      _______. __  ___  __  .______    __       __  .__   __.  _______ 
-    /       ||  |/  / |  | |   _  \\  |  |     |  | |  \\ |  | |   ____|
-   |   (----\`|  '  /  |  | |  |_)  | |  |     |  | |   \\|  | |  |__   
-    \\   \\    |        |  | |   ___/  |  |     |  | |  . \`  | |   __|  
-.----    |   |  .  \\  |  | |  |      |  \`----.|  | |  |\\   | |  |____ 
-|_______/    |__|\\__\\ |__| | _|      |_______||__| |__| \\__| |_______|
-                                                                                            
-                       `}
-                    </pre>
-
-                    <p className="mission-statement">
-                        We dedicate our intellectual, social, and computational capital to catalyzing the cryptoeconomic
-                        networks of the future.
-                    </p>
-
-                    <StakingWidget validatorAddress="sdo2QoiSsPknraeCts5GeBkV3AYDdtuxJ3VpYCS1CxR" />
+            <main className="sl-main">
+                <section className="sl-hero" id="staking">
+                    <div className="sl-hero-content">
+                        <div className="sl-hero-text">
+                            <h1 className="sl-hero-title">Stake SOL with SkipLine</h1>
+                            <p className="sl-hero-desc">
+                                Secure, non-custodial staking for Solana. Delegate your SOL to our high-performance validator and earn rewards while supporting network security.
+                            </p>
+                            <ul className="sl-hero-features">
+                                <li>🔒 Non-custodial & secure</li>
+                                <li>⚡ High uptime & performance</li>
+                                <li>💸 Transparent rewards</li>
+                                <li>🛡️ Trusted by the Solana community</li>
+                            </ul>
+                        </div>
+                        <div className="sl-hero-widget">
+                            <StakingWidget validatorAddress="sdo2QoiSsPknraeCts5GeBkV3AYDdtuxJ3VpYCS1CxR" />
+                        </div>
+                    </div>
                 </section>
 
-                <section className="networks">
-                    <h2>Networks</h2>
-
-                    <p className="networks-intro">
-                        we operate validators with strong delegation across the following networks:
-                    </p>
-
-                    <ul className="network-list">
-                        <li>
-                            <a href="#" className="network-link">Ethereum</a> (testnet, mainnet)
-                        </li>
-                        <li>
-                            <a href="https://www.validators.app/validators/32nTAQSAxzSbvURguFvfz5FX1g4enbvgyttMYHr1KJqM?locale=en&network=testnet"
-                                className="network-link">Solana</a> (testnet, mainnet soon)
-                        </li>
-                    </ul>
+                <section className="sl-section" id="projects">
+                    <h2 className="sl-section-title">Our Projects</h2>
+                    <div className="sl-projects-list">
+                        <div className="sl-project-card">
+                            <a href="https://github.com/skip-line/sdo" target="_blank" rel="noopener noreferrer" className="sl-project-link">
+                                <span className="sl-project-title">SDO</span>
+                                <span className="sl-project-desc">Solana validator operator toolkit</span>
+                            </a>
+                        </div>
+                    </div>
                 </section>
 
-                <section className="networks">
-                    <h2>Projects</h2>
-
-                    <p className="networks-intro">
-                        We also BUIDL and contribute to projects that enhance the cryptoeconomic ecosystem.
-                        Below are some of the projects we are currently involved in:
-                        <br />
-                    </p>
-
-                    <ul className="network-list">
-                        <li>
-                            <a href="https://github.com/skip-line/sdo" className="network-link">SDO</a> (A tool to help operators of
-                            Solana validators, build and deploy)
-                        </li>
-                    </ul>
+                <section className="sl-section" id="networks">
+                    <h2 className="sl-section-title">Supported Networks</h2>
+                    <div className="sl-networks-list">
+                        <div className="sl-network-card">
+                            <img src="/public/solana-sol-logo.png?v=040" alt="Solana" height={32} style={{ marginRight: '10px' }} />
+                            <span className="sl-network-name">Solana</span>
+                            <span className="sl-network-status sl-status-mainnet">Mainnet</span>
+                        </div>
+                        <div className="sl-network-card">
+                            <img src="/public/ethereum-eth-logo.png?v=040" alt="Ethereum" height={32} style={{ marginRight: '10px' }} />
+                            <span className="sl-network-name">Ethereum</span>
+                            <span className="sl-network-status sl-status-testnet">Testnet</span>
+                        </div>
+                    </div>
                 </section>
 
-                <section className="networks">
-                    <h2>About</h2>
-                    <p className="networks-intro">
-                        As crypto-native node operators and builders, we're on a mission to empower the next generation of
-                        blockchains and decentralized networks from their very inception.
-                    </p>
+
+
+                <section className="sl-section" id="about">
+                    <h2 className="sl-section-title">About SkipLine</h2>
+                    <div className="sl-about-content">
+                        <p>
+                            SkipLine is a crypto-native node operator and builder, empowering the next generation of blockchains and decentralized networks from their inception. We dedicate our intellectual, social, and computational capital to catalyzing cryptoeconomic networks of the future.
+                        </p>
+                        <p>
+                            <a href="mailto:admin@skipline.xyz" className="sl-contact-link">admin@skipline.xyz</a>
+                            <br />
+                            <a href="https://t.me/cloudusk_admin" className="sl-contact-link">Telegram</a>
+                            <br />
+                            <a href="https://twitter.com/engineered_head" className="sl-contact-link">Twitter</a>
+                            <br />
+                            <a href="https://github.com/skip-line" className="sl-contact-link">Github</a>
+                        </p>
+                    </div>
                 </section>
-                <hr />
-                Please, contact us at <a href="mailto:admin@skipline.xyz">admin@skipline.xyz</a>
             </main>
         </>
     )
