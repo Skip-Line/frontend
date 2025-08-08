@@ -416,156 +416,158 @@ const StakingWidget = ({ validatorAddress = 'sdo2QoiSsPknraeCts5GeBkV3AYDdtuxJ3V
     }, [selectedWallet])
 
     return (
-        <div className="staking-widget">
-            <div className="staking-card">
-                <h3>Stake SOL with SkipLine</h3>
-                <p className="validator-info">
-                    Validator: <code>{validatorAddress}</code>
-                </p>
+        <div className="staking-container">
+            <div className="staking-widget">
+                <div className="staking-card">
+                    <h3>Stake SOL with SkipLine</h3>
+                    <p className="validator-info">
+                        Validator: <code>{validatorAddress}</code>
+                    </p>
 
-                {!isConnected ? (
-                    <div className="wallet-connection">
-                        <p>Select and connect your Solana wallet to start staking</p>
+                    {!isConnected ? (
+                        <div className="wallet-connection">
+                            <p>Select and connect your Solana wallet to start staking</p>
 
-                        {availableWallets.length === 0 ? (
-                            <div className="no-wallets">
-                                <p>No Solana wallets detected. Please install one of the following:</p>
-                                <ul className="wallet-install-list">
-                                    <li>Phantom - <a href="https://phantom.app/" target="_blank" rel="noopener noreferrer">phantom.app</a></li>
-                                    <li>Solflare - <a href="https://solflare.com/" target="_blank" rel="noopener noreferrer">solflare.com</a></li>
-                                    <li>Backpack - <a href="https://backpack.app/" target="_blank" rel="noopener noreferrer">backpack.app</a></li>
-                                </ul>
-                            </div>
-                        ) : (
-                            <>
-                                <div className="wallet-selector">
-                                    <label htmlFor="wallet-select">Choose your wallet:</label>
-                                    <select
-                                        id="wallet-select"
-                                        value={selectedWallet}
-                                        onChange={(e) => setSelectedWallet(e.target.value)}
-                                        className="wallet-select"
-                                    >
-                                        {availableWallets.map((wallet) => (
-                                            <option key={wallet.key} value={wallet.key}>
-                                                {wallet.icon} {wallet.name}
-                                            </option>
-                                        ))}
-                                    </select>
+                            {availableWallets.length === 0 ? (
+                                <div className="no-wallets">
+                                    <p>No Solana wallets detected. Please install one of the following:</p>
+                                    <ul className="wallet-install-list">
+                                        <li>Phantom - <a href="https://phantom.app/" target="_blank" rel="noopener noreferrer">phantom.app</a></li>
+                                        <li>Solflare - <a href="https://solflare.com/" target="_blank" rel="noopener noreferrer">solflare.com</a></li>
+                                        <li>Backpack - <a href="https://backpack.app/" target="_blank" rel="noopener noreferrer">backpack.app</a></li>
+                                    </ul>
                                 </div>
-
-                                <button
-                                    onClick={connectWallet}
-                                    disabled={isLoading || !selectedWallet}
-                                    className="connect-btn"
-                                >
-                                    {isLoading ? 'Connecting...' : `Connect ${walletConfigs[selectedWallet]?.name || 'Wallet'}`}
-                                </button>
-                            </>
-                        )}
-                    </div>
-                ) : (
-                    <div className="staking-form">
-                        <div className="wallet-info">
-                            <div>
-                                <p>Connected via: <strong>{walletConfigs[selectedWallet]?.icon} {walletConfigs[selectedWallet]?.name}</strong></p>
-                                <p>Address: <code>{walletAddress.slice(0, 8)}...{walletAddress.slice(-8)}</code></p>
-                                <p>Balance: <strong>{balance.toFixed(4)} SOL</strong></p>
-                            </div>
-                            <button onClick={disconnectWallet} className="disconnect-btn">
-                                Disconnect
-                            </button>
-                        </div>
-
-                        <div className="amount-input">
-                            <label htmlFor="stake-amount">Amount to stake (SOL):</label>
-                            <input
-                                id="stake-amount"
-                                type="number"
-                                step="0.1"
-                                min="0"
-                                value={amount}
-                                onChange={(e) => setAmount(e.target.value)}
-                                placeholder="Enter SOL amount"
-                                className="stake-input"
-                            />
-                        </div>
-
-                        <button
-                            onClick={handleStake}
-                            disabled={isLoading || !amount}
-                            className="stake-btn"
-                        >
-                            {isLoading ? 'Processing Transaction...' : `Stake ${amount || '0'} SOL`}
-                        </button>
-
-                        {transactionSignature && (
-                            <div className="transaction-result">
-                                <p><strong>✅ Transaction Successful!</strong></p>
-                                <p>
-                                    <a
-                                        href={`https://explorer.solana.com/tx/${transactionSignature}`}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="transaction-link"
-                                    >
-                                        View on Solana Explorer
-                                    </a>
-                                </p>
-                            </div>
-                        )}
-
-                        <div className="existing-stakes">
-                            <h4>Your Existing Stake Accounts</h4>
-                            {stakeAccounts.length === 0 ? (
-                                <p>No active stake accounts found. Create your first stake to get started!</p>
                             ) : (
-                                <ul className="stake-accounts-list">
-                                    {stakeAccounts.map((stake) => (
-                                        <li key={stake.pubkey} className="stake-account">
-                                            <div className="stake-details">
-                                                <strong>Account:</strong> <code>{stake.pubkey.slice(0, 8)}...{stake.pubkey.slice(-8)}</code><br />
-                                                <strong>Amount:</strong> {((stake.lamports / LAMPORTS_PER_SOL)).toFixed(4)} SOL<br />
-                                                <strong>Status:</strong> <span className={`status-${stake.state}`}>{stake.state}</span>
-                                            </div>
-                                            <div className="stake-actions">
-                                                {stake.state === 'active' ? (
-                                                    <button
-                                                        onClick={() => handleUnstake(stake.pubkey)}
-                                                        className="unstake-btn"
-                                                        disabled={isLoading}
-                                                    >
-                                                        {isLoading ? 'Processing...' : 'Deactivate'}
-                                                    </button>
-                                                ) : stake.state === 'inactive' ? (
-                                                    <button
-                                                        onClick={() => alert('Withdrawing inactive stakes coming soon!')}
-                                                        className="withdraw-btn"
-                                                        disabled={isLoading}
-                                                    >
-                                                        Withdraw
-                                                    </button>
-                                                ) : (
-                                                    <span className="status-info">Activating...</span>
-                                                )}
-                                            </div>
-                                        </li>
-                                    ))}
-                                </ul>
+                                <>
+                                    <div className="wallet-selector">
+                                        <label htmlFor="wallet-select">Choose your wallet:</label>
+                                        <select
+                                            id="wallet-select"
+                                            value={selectedWallet}
+                                            onChange={(e) => setSelectedWallet(e.target.value)}
+                                            className="wallet-select"
+                                        >
+                                            {availableWallets.map((wallet) => (
+                                                <option key={wallet.key} value={wallet.key}>
+                                                    {wallet.icon} {wallet.name}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+
+                                    <button
+                                        onClick={connectWallet}
+                                        disabled={isLoading || !selectedWallet}
+                                        className="connect-btn"
+                                    >
+                                        {isLoading ? 'Connecting...' : `Connect ${walletConfigs[selectedWallet]?.name || 'Wallet'}`}
+                                    </button>
+                                </>
                             )}
                         </div>
+                    ) : (
+                        <div className="staking-form">
+                            <div className="wallet-info">
+                                <div>
+                                    <p>Connected via: <strong>{walletConfigs[selectedWallet]?.icon} {walletConfigs[selectedWallet]?.name}</strong></p>
+                                    <p>Address: <code>{walletAddress.slice(0, 8)}...{walletAddress.slice(-8)}</code></p>
+                                    <p>Balance: <strong>{balance.toFixed(4)} SOL</strong></p>
+                                </div>
+                                <button onClick={disconnectWallet} className="disconnect-btn">
+                                    Disconnect
+                                </button>
+                            </div>
 
-                        <div className="staking-info">
-                            <p><small>
-                                • Minimum stake: 0.1 SOL<br />
-                                • Rent exemption: ~0.00228 SOL (refundable)<br />
-                                • Staking rewards are distributed automatically<br />
-                                • Unstaking has a 2-4 epoch cooldown period<br />
-                                • This is on Solana mainnet-beta
-                            </small></p>
+                            <div className="amount-input">
+                                <label htmlFor="stake-amount">Amount to stake (SOL):</label>
+                                <input
+                                    id="stake-amount"
+                                    type="number"
+                                    step="0.1"
+                                    min="0"
+                                    value={amount}
+                                    onChange={(e) => setAmount(e.target.value)}
+                                    placeholder="Enter SOL amount"
+                                    className="stake-input"
+                                />
+                            </div>
+
+                            <button
+                                onClick={handleStake}
+                                disabled={isLoading || !amount}
+                                className="stake-btn"
+                            >
+                                {isLoading ? 'Processing Transaction...' : `Stake ${amount || '0'} SOL`}
+                            </button>
+
+                            {transactionSignature && (
+                                <div className="transaction-result">
+                                    <p><strong>✅ Transaction Successful!</strong></p>
+                                    <p>
+                                        <a
+                                            href={`https://explorer.solana.com/tx/${transactionSignature}`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="transaction-link"
+                                        >
+                                            View on Solana Explorer
+                                        </a>
+                                    </p>
+                                </div>
+                            )}
+
+                            <div className="existing-stakes">
+                                <h4>Your Existing Stake Accounts</h4>
+                                {stakeAccounts.length === 0 ? (
+                                    <p>No active stake accounts found. Create your first stake to get started!</p>
+                                ) : (
+                                    <ul className="stake-accounts-list">
+                                        {stakeAccounts.map((stake) => (
+                                            <li key={stake.pubkey} className="stake-account">
+                                                <div className="stake-details">
+                                                    <strong>Account:</strong> <code>{stake.pubkey.slice(0, 8)}...{stake.pubkey.slice(-8)}</code><br />
+                                                    <strong>Amount:</strong> {((stake.lamports / LAMPORTS_PER_SOL)).toFixed(4)} SOL<br />
+                                                    <strong>Status:</strong> <span className={`status-${stake.state}`}>{stake.state}</span>
+                                                </div>
+                                                <div className="stake-actions">
+                                                    {stake.state === 'active' ? (
+                                                        <button
+                                                            onClick={() => handleUnstake(stake.pubkey)}
+                                                            className="unstake-btn"
+                                                            disabled={isLoading}
+                                                        >
+                                                            {isLoading ? 'Processing...' : 'Deactivate'}
+                                                        </button>
+                                                    ) : stake.state === 'inactive' ? (
+                                                        <button
+                                                            onClick={() => alert('Withdrawing inactive stakes coming soon!')}
+                                                            className="withdraw-btn"
+                                                            disabled={isLoading}
+                                                        >
+                                                            Withdraw
+                                                        </button>
+                                                    ) : (
+                                                        <span className="status-info">Activating...</span>
+                                                    )}
+                                                </div>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
+                            </div>
+
+                            <div className="staking-info">
+                                <p><small>
+                                    • Minimum stake: 0.1 SOL<br />
+                                    • Rent exemption: ~0.00228 SOL (refundable)<br />
+                                    • Staking rewards are distributed automatically<br />
+                                    • Unstaking has a 2-4 epoch cooldown period<br />
+                                    • This is on Solana mainnet-beta
+                                </small></p>
+                            </div>
                         </div>
-                    </div>
-                )}
+                    )}
+                </div>
             </div>
         </div>
     )

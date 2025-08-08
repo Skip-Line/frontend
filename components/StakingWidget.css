@@ -1,4 +1,10 @@
 /* Staking Widget Styles */
+.staking-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .staking-widget {
     max-width: 500px;
     margin: 20px 0;
