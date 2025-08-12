@@ -1,6 +1,4 @@
 import React from 'react'
-import StakingWidget from './components/StakingWidget'
-import './components/StakingWidget.css'
 import './style.css'
 
 function App() {
@@ -84,11 +82,6 @@ function App() {
                             <a href="https://github.com/skip-line" className="sl-contact-link">Github</a>
                         </div>
                     </div>
-                </section>
-
-
-                <section >
-                    <StakingWidget validatorAddress="sdo2QoiSsPknraeCts5GeBkV3AYDdtuxJ3VpYCS1CxR" />
                 </section>
 
             </main>
